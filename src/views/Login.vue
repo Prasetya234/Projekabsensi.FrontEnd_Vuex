@@ -49,6 +49,7 @@
       </form>
     </div>
   </div> -->
+  <div class="container">
   <div class="form-style-10">
     <h1>Login <span>Sign up and tell us what you think of the site!</span></h1>
     <form name="form" @submit.prevent="handleLogin">
@@ -76,9 +77,10 @@
             </span>
           </div><br>
           <div class="form-group">
-            <div v-if="message" class="alert alert-info" role="alert"><center>Email atau Password salah</center></div>
+            <div v-if="message" class="alert alert-info" role="alert"><center>{{message}}</center></div>
           </div>
     </form>
+  </div>
   </div>
 </template>
 
@@ -168,7 +170,7 @@ background-image: linear-gradient(#80b7e4, #78cee4);
   border-radius: 50%;
 } */
 .form-style-10{
-width:75%;
+width:100%;
 padding:30px;
 margin:40px auto;
 background: #FFF;

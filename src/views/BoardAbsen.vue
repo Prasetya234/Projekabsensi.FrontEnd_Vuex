@@ -1,11 +1,41 @@
 <template>
-  <div>
-    <div class="list row ">
-      <div class="col-md-8">
-      <div class="container"><br/>
-       <div class="input-group mb-3">
-        <input type="text" class="form-control" placeholder="Search Username"
-          v-model="username"/>
+<!-- <div>
+  <v-card>
+    <v-card-title>
+      Data Absen
+      <v-spacer></v-spacer>
+      <v-text-field
+        v-model="username"
+        append-icon="mdi-magnify"
+        label="Search Username"
+        single-line
+        hide-details
+      ></v-text-field>
+    </v-card-title>
+    <v-data-table
+      :headers="headers"
+      :items="absen"
+      :search="username"
+      :loading="myloadingvariable" loading-text="Laden... even geduld aub"
+    >
+     <template v-slot:[`item.createdAt`]="{ item }">
+      <v-chip
+        :color="getColor(item.createdAt)"
+        dark
+      >
+        {{ item.createdAt }}
+      </v-chip>
+    </template>
+    <template v-slot:[`item.actions`]="{ item }">
+      <v-icon small class="mr-2" @click="editAbsen(item.id)">mdi-google-maps</v-icon>
+      <v-icon small @click="deleteAbsen(item.id), snackbar = true">mdi-delete</v-icon>
+    </template>
+    </v-data-table>
+  </v-card> -->
+  <div><br/> 
+    <div class="container">
+    <div class="input-group mb-3">
+      <input type="text" class="form-control" placeholder="Search Username" v-model="username"/>
         <div class="input-group-append">
           <button class="btn btn-outline-secondary" type="button"
             @click="searchUsername"
@@ -14,34 +44,54 @@
           </button>
         </div>
       </div>
-        </div>
       </div>
-    </div>
-    <v-card class="mx-auto" tile>
-    <v-card-title>DATA ABSEN</v-card-title>
-      <v-data-table 
-       :headers="headers"
-          item-key="absen"
-         
-          loading-text="Loading... Please wait"
-            :items="absen"
-            :items-per-page="5"
-            class="elevation-1"
+      <b-card>
+        <b-col sm="5" md="6" class="my-1">
+        <b-form-group
+          label="Per page"
+          label-for="per-page-select"
+          label-cols-sm="6"
+          label-cols-md="4"
+          label-cols-lg="3"
+          label-align-sm="right"
+          label-size="sm"
+          class="mb-0"
         >
-          <template v-slot:[`item.createdAt`]="{ item }">
-            <v-chip
-              :color="getColor(item.createdAt)"
-              dark
-            >
-              {{ item.createdAt }}
-            </v-chip>
+          <b-form-select
+            id="per-page-select"
+            v-model="perPage"
+            :options="pageOptions"
+            size="sm"
+          ></b-form-select>
+        </b-form-group>
+      </b-col>
+
+      <!-- <b-col sm="7" md="6" class="my-1">
+        <b-pagination
+          v-model="currentPage"
+          :total-rows="totalRows"
+          :per-page="perPage"
+          align="fill"
+          size="sm"
+          class="my-0"
+        ></b-pagination>
+      </b-col> -->
+      <br>
+
+        <b-table responsive autoWidth hover :items="absen" :fields="fields" :per-page="perPage">
+          <!-- <template slot="actions" slot-scope="item">
+            <button class="btn btn-dark" @click="deleteAbsen" :ref="'btn' + item.index">Update</button>
+          </template> -->
+          <template v-slot:cell(actions)="id">
+            <b-button size="sm" @click="editAbsen(id), snackbar = false" class="mr-1" variant="primary">
+              Location
+            </b-button>
+            <b-button size="sm" @click="deleteAbsen(id), snackbar = true" class="mr-1" variant="danger">
+              Delete
+            </b-button>
           </template>
-          <template v-slot:[`item.actions`]="{ item }">
-            <v-icon small class="mr-2" @click="editAbsen(item.id)">mdi-google-maps</v-icon>
-            <v-icon small @click="deleteAbsen(item.id), snackbar = true">mdi-delete</v-icon>
-          </template>
-      </v-data-table>
-  </v-card>
+        </b-table>
+      </b-card>
   <div class="text-center">
   <v-snackbar
       v-model="snackbar"
@@ -71,29 +121,84 @@ export default {
   name: "absen",
   data() {
     return {
+      // myloadingvariable: false,
       multiLine: true,
       snackbar: false,
       text: `Data Berhasil di Hapus`,
       absen: [],
-      headers: [
-        { text: "ID", align: "id", sortable: false, value: "id" },
-        { text: "Username", value: "username", sortable: false },
-        { text: "Jam Absen", value: "createdAt", sortable: false },
-        { text: "Latitude", value: "lat", sortable: false },
-        { text: "longitude", value: "lng", sortable: false },
-        { text: "Actions", value: "actions", sortable: false }
-      ], 
+      // headers: [
+      //   { text: "No", align: "id", sortable: false, value: "id" },
+      //   { text: "ID Siswa", align: "id", sortable: false, value: "id_absen" },
+      //   { text: "Username", value: "username", sortable: false },
+      //   { text: "Jam Absen", value: "createdAt", sortable: false },
+      //   { text: "Latitude", value: "lat", sortable: false },
+      //   { text: "Longitude", value: "lng", sortable: false },
+      //   { text: "Actions", value: "actions", sortable: false }
+      // ], 
+      // Note 'isActive' is left out and will not appear in the rendered table
+        fields: [
+          {
+            key: 'id',
+            label: 'No',
+            sortable: false
+          },
+          {
+            key: 'id_absen',
+            label: 'ID',
+            
+            sortable: false
+          },
+          {
+            key: 'username',
+            sortable: false
+          },
+          {
+            key: 'createdAt',
+            label: 'Jam Absen',
+            sortable: false ,
+            // Variant applies to the whole column, including the header and footer
+            variant: 'primary'
+          },  
+          {
+            key: 'lat',
+            label: 'Latitude',
+            sortable: false
+          },
+          {
+            key: 'lng',
+            label: 'Longitude',
+            sortable: false
+          },
+          {
+            key: 'actions',
+            label: 'Actions',
+            sortable: false
+          }
+        ],
+        totalRows: true,
+        currentPage: true,
+        perPage: 10,
+        pageOptions: [5, 10, 15, { value: 100, text: "Tampilkan semua" }],
+        // absen: [
+        //   { isActive: true, text: "No", align: "id" },
+        //   { isActive: false, text: "ID", align: "id_absen" },
+        //   { isActive: false, text: "username", value: "username" },
+        //   { isActive: false, text: "createdAt", value: "createdAt" },
+        //   { isActive: false, text: "lat", value: "lat" },
+        //   { isActive: false, text: "lng", value: "lng" },   
+        //   { isActive: false, text: "Actions", value: "actions" }
+        // ],
       currentAbsen: null,
       currentIndex: -1,
       username: ""
     };
   },
   methods: {
-    getColor (createdAt) {
-        if (createdAt > 12) return 'red'
-        else if (createdAt > 200) return 'orange'
-        else return 'green'
-      },
+    // getColor (createdAt) {
+    //     if (createdAt < 12) return 'red'
+    //     else if (createdAt > 8) return 'orange'
+    //     else return 'green'
+    //   },
    retrieveAbsen() {
       AbsenDataService.getAll()
         .then(response => {
@@ -115,10 +220,10 @@ export default {
       this.$router.push({ name: "check", params: { id: id } });
     },
 
-    setActiveAbsen(absen, index) {
-      this.currentAbsen = absen;
-      this.currentIndex = index;
-    },
+    // setActiveAbsen(absen, index) {
+    //   this.currentAbsen = absen;
+    //   this.currentIndex = index;
+    // },
 
     removeAllAbsen() {
       AbsenDataService.deleteAll()
@@ -152,34 +257,6 @@ export default {
     }
   },
   mounted() {
-    function showTime() {
-    var date = new Date();
-    var h = date.getHours();
-    var m = date.getMinutes();
-    var s = date.getSeconds();
-    var session = "AM";
-
-    if(h >= 12){
-      h = h-12;
-      session = "PM";
-    }
-
-    if(h == 0){
-      h=12;
-    }
-
-    h = (h < 10) ? "0" + h : h;
-    m = (m < 10) ? "0" + m : m;
-    s = (s < 10) ? "0" + s : s;
-
-    var time = h + ":" + m + ":" + s + " " + session;
-    document.getElementById("MyClock").innerHTML = time;
-    document.getElementById("MyClock").innerHTML = time;
-
-    setTimeout(showTime, 1000);
-  }
-
-  showTime();
   this.retrieveAbsen();
   }
 };

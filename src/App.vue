@@ -2,38 +2,35 @@
   <div id="app">
     <v-app>
       <b-navbar toggleable="lg" type="dark" variant="dark">
-        <router-link to="/home" class="nav-link">
+        <b-nav-item @click="home" class="nav-link">
           <font color="white">
             <font-awesome-icon icon="home" /> Home
           </font>
-        </router-link>
-
-        <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
+        </b-nav-item>
+                <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
 
         <b-collapse id="nav-collapse" is-nav>
           <b-navbar-nav>
             <b-nav-item v-if="showAdminBoard">
-              <router-link to="/admin" class="nav-link">
+              <b-nav-item @click="admin" class="nav-link">
                 <font-awesome-icon icon="address-card" /> Data Siswa
-              </router-link>
+              </b-nav-item>
             </b-nav-item>
 
             <b-nav-item v-if="showAdminBoard">
-              <router-link to="/absen" class="nav-link">
+              <b-nav-item @click="absen" class="nav-link">
                 <font-awesome-icon icon="address-book" /> Data Absen
-              </router-link>
+              </b-nav-item>
             </b-nav-item>
-
-            <!-- <b-nav-item v-if="showAdminBoard">
-              <router-link to="/map" class="nav-link">
-              <font-awesome-icon icon="map-marker-alt" /> Map
-              </router-link>
-            </b-nav-item> -->
-
             <b-nav-item v-if="showUserBoard">
-              <router-link to="/check2" class="nav-link">
+              <b-nav-item @click="check2" class="nav-link">
               <font-awesome-icon icon="portrait" /> Absen
-              </router-link>
+              </b-nav-item>
+            </b-nav-item>
+            <b-nav-item v-if="showModeratorBoard">
+              <b-nav-item @click="check2" class="nav-link">
+              <font-awesome-icon icon="portrait" /> Absen
+              </b-nav-item>
             </b-nav-item>
           </b-navbar-nav>
           
@@ -47,25 +44,25 @@
 
           <b-navbar-nav class="ml-auto">
             <b-nav-item v-if="!currentUser">
-              <router-link to="/login" class="nav-link">
+              <b-nav-item @click="login" class="nav-link">
                 <font-awesome-icon icon="sign-in-alt" /> Login
-              </router-link>
+              </b-nav-item>
             </b-nav-item>
             
             <b-nav-item v-if="currentUser">
-              <router-link to="/profile" class="nav-link">
+              <b-nav-item @click="profile" class="nav-link">
                 <font-awesome-icon icon="user" /> {{ currentUser.username }}
-              </router-link>
+              </b-nav-item>
             </b-nav-item>
             
               <b-nav-item v-if="showAdminBoard">
-                <b-nav-item href @click.prevent="logOut">
+                <b-nav-item href @click.prevent="logOut" class="nav-link">
                     <font-awesome-icon icon="sign-out-alt" /> LogOut
                 </b-nav-item>
               </b-nav-item>
     
               <b-nav-item v-if="showUserBoard">
-                <b-nav-item href @click.prevent="logOut">
+                <b-nav-item href @click.prevent="logOut" class="nav-link">
                     <font-awesome-icon icon="sign-out-alt" /> LogOut
                 </b-nav-item>
               </b-nav-item>
@@ -115,6 +112,24 @@ export default {
   methods: {
     logOut() {
       this.$store.dispatch('auth/logout');
+      this.$router.push('/login');
+    },
+    check2() {
+      this.$router.push('/check2');
+    },
+    admin() {
+      this.$router.push('/admin');
+    },
+    absen() {
+      this.$router.push('/absen');
+    },
+    profile() {
+      this.$router.push('/profile');
+    },
+    home() {
+      this.$router.push('/home');
+    },
+    login() {
       this.$router.push('/login');
     }
   },

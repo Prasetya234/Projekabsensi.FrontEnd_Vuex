@@ -76,14 +76,21 @@
       </v-btn>
     </v-form>
 
-    <p class="mt-3">{{ message }}</p>
+    <p class="mt-3">{{ message }}</p><br>
     <button class="glow-on-hover" >
         <router-link to="/admin" class="nav-link text-white"><b>Back to Home</b></router-link>
     </button>
   </div>
 
   <div v-else>
-    <p class="text-center">Loading...Please wait</p>
+    <p class="text-center">Terjadi kesalahan memuat data... Coba lagi !</p>
+    <button class="glow-on-hover" >
+        <router-link to="/admin" class="nav-link text-white"><b>Back to Home</b></router-link>
+    </button><br><br><br><br><br><br><br><br><br><br><br><br>
+    <p class="text-center">Terjadi kesalahan memuat data... Coba lagi !</p>
+    <button class="glow-on-hover" >
+        <router-link to="/admin" class="nav-link text-white"><b>Back to Home</b></router-link>
+    </button>
   </div>
 </div>
 </template>

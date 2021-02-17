@@ -139,11 +139,11 @@ export default {
       message: ''
     };
   },
-  computed: {
-    loggedIn() {
-      return this.$store.state.auth.status.loggedIn;
-    }
-  },
+  // computed: {
+  //   loggedIn() {
+  //     return this.$store.state.auth.status.loggedIn;
+  //   }
+  // },
   mounted() {
     if (this.loggedIn) {
       this.$router.push('/register');
@@ -182,7 +182,7 @@ label {
 }
 
 .card-container.card {
-  max-width: 350px !important;
+  max-width: 100%;
   padding: 40px 40px;
 }
 

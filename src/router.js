@@ -2,7 +2,6 @@ import Vue from 'vue';
 import Router from 'vue-router';
 import Home from './views/Home.vue';
 import Login from './views/Login.vue';
-import Register from './views/Register.vue';
 
 Vue.use(Router);
 
@@ -24,7 +23,9 @@ export const router = new Router({
     },
     {
       path: '/register',
-      component: Register
+      name: 'register',
+      // lazy-loaded
+      component: () => import('./views/Register.vue')
     },
     {
       path: '/profile',
@@ -62,12 +63,12 @@ export const router = new Router({
       // lazy-loaded
       component: () => import('./views/Edit.vue')
     },
-    // {
-    //   path: '/map2',
-    //   name: 'map2',
-    //   // lazy-loaded
-    //   component: () => import('./views/Map2.vue')
-    // },
+    {
+      path: '/map2',
+      name: 'map2',
+      // lazy-loaded
+      component: () => import('./views/Map2.vue')
+    },
     {
       path: '/check2',
       name: 'check2',

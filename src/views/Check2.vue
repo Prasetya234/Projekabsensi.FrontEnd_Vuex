@@ -8,6 +8,14 @@
           class="form-control"
           id="input"
           required
+          v-model="this.currentUser.id"
+          name="username" disabled
+        />
+        <input
+          type="text"
+          class="form-control"
+          id="input"
+          required
           v-model="this.currentUser.username"
           name="username" disabled
         />
@@ -85,6 +93,7 @@ export default {
   methods: {
     saveAbsen() {
       var data = {
+        id_absen: this.currentUser.id,
         username: this.currentUser.username,
         lat: this.coordinates.lat,
         lng: this.coordinates.lng
