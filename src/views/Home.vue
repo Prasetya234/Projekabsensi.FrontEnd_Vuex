@@ -11,7 +11,7 @@
       <p class="card-text"><b>{{ mk }}</b></p><br> -->
       <ul>
           <li><b>Leader :</b> Prasetya Dhnay Putra (front-end / back-end) &nbsp;<button @click="uji" class="btn btn-success" style="height: 35px;">Profile</button></li><br>
-          <ul><b>Moderator :</b> Rafa Lailatul Zahra (front-end) &nbsp;<!--<button  class="btn btn-success" style="height: 35px;">Profile</button>--></ul><br>
+          <ul><b>Moderator :</b> Rafa Lailatul Zahra (front-end) &nbsp;<button @click="map2" class="btn btn-success" style="height: 35px;">Profile</button></ul><br>
           <ul><b>Member :</b> Ilham Santoso (front-end)</ul><br><hr>
           <ul><b>Sekolah:</b> Smk Bina Nusantara Semarang</ul>
           <ul><b>Waktu Pembuatan:</b> 15-12-2020 s.d 18-01-2021</ul>
@@ -46,10 +46,9 @@ export default {
   methods: {
     uji() {
       this.$router.push('/uji');
-    // },
-    // uji2() {
-    //   this.$router.push('/home2');
-    // }
+    },
+    map2() {
+      this.$router.push('/map2');
     }
   }
 };

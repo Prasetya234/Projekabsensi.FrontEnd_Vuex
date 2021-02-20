@@ -51,7 +51,7 @@
   </div> -->
   <div class="container">
   <div class="form-style-10">
-    <h1>Login <span>Sign up and tell us what you think of the site!</span></h1>
+    <h1>Sign up!<span>Sign up and tell us what you think of the site!</span></h1>
     <form name="form" @submit.prevent="handleLogin">
       <div class="section"><span>1</span>Username</div>
         <div class="inner-wrap">

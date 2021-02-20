@@ -22,7 +22,7 @@
                     <div class="col-md-6"><h5> Latitude : {{ currentAbsen.lat }}</h5></div>
                     <div class="col-md-6"><h5> Longitude : {{ currentAbsen.lng }}</h5></div><br><br>
                     <div class="col-md-12"  v-bind:class="{ 'not-visible' : active }" >
-                        <iframe frameborder="0" style="width: 100%; height: 350px; border:0" v-bind:src="'https://www.google.com/maps/embed/v1/place?key=AIzaSyBA-r_MQOWbMLGddjGz7fl0_nAeQ8WHaRM&q='+ latlng" allowfullscreen></iframe>
+                        <iframe frameborder="0" style="width: 100%; height: 350px; border:0" v-bind:src="'https://www.google.com/maps/embed/v1/place?key=AIzaSyDwgeYC36l4W8BZlV2kOqGl671dYXGRK_Q&q='+ latlng" allowfullscreen></iframe>
                     </div>
                   </div>
                 </div><!-- end of .lead-form -->

@@ -1,48 +1,4 @@
-<template>
-<!-- <div>
-    <v-card>
-    <v-card-title>
-      Data Siswa
-      <v-spacer></v-spacer>
-      <v-text-field
-        v-model="username"
-        append-icon="mdi-magnify"
-        label="Search Username"
-        single-line
-        hide-details
-      ></v-text-field>
-    </v-card-title>
-    <v-data-table
-      :headers="headers"
-      :items="user"
-      :search="username"
-    >
-    <template v-slot:[`item.actions`]="{ item }">
-      <v-icon small class="mr-2" @click="editUser(item.id)">mdi-pencil</v-icon>
-      <v-icon small @click="deleteUser(item.id), snackbar = true">mdi-delete</v-icon>
-    </template>
-    </v-data-table>
-  </v-card><br>
-  <div class="text-center">
-  <v-snackbar
-      v-model="snackbar"
-      :multi-line="multiLine"
-    >
-      {{ text }}
-
-      <template v-slot:action="{ attrs }">
-        <v-btn
-          color="red"
-          text
-          v-bind="attrs"
-          @click="snackbar = false"
-        >
-          Close
-        </v-btn>
-      </template>
-    </v-snackbar>
-  </div><br/>
-</div> -->
+<!--<template>
 <div><br/>
       <div class="container">
     <div class="list row ">
@@ -86,8 +42,8 @@
                 size="sm"
               ></b-form-select>
             </b-form-group>
-          </b-col>
-          <b-col sm="7" md="6" class="my-1">
+              </b-col>
+              <b-col sm="7" md="6" class="my-1">
             <b-pagination
               v-model="currentPage"
               :total-rows="totalRows"
@@ -97,7 +53,7 @@
               class="my-0"
             ></b-pagination>
           </b-col>
-       </b-row><br><br>
+       </b-row><br>
         <b-table responsive autoWidth hover :items="user" :fields="fields" :per-page="perPage" :current-page="currentPage">
           <template v-slot:cell(actions)="id">
             <b-button size="sm" @click="editUser(id), snackbar = false" class="mr-1" variant="primary">
@@ -110,6 +66,103 @@
         </b-table>
       </b-card>
   </div>  
+</template> -->
+
+<template>
+  <div><br>
+  <v-card>
+    <v-card-title>
+      Data Siwa
+      <v-spacer></v-spacer>
+      <v-text-field
+        v-model="username"
+        append-icon="mdi-magnify"
+        label="Search Username"
+        single-line
+        hide-details
+      ></v-text-field>
+    </v-card-title>
+    <v-card-title>
+    <!-- <v-select
+      v-model="enabled"
+      :items="slots"
+      label="Slot"
+      clearable
+    ></v-select> -->
+    </v-card-title>
+    <v-data-table
+      :headers="headers"
+      :items="user"
+      :search="username"
+      :hide-default-header="hideHeaders"
+      :show-select="showSelect"
+      :loading="isLoading"
+      item-key="name"
+      class="elevation-1" disa
+    >
+      <template
+        v-if="isEnabled('body')"
+        v-slot:body="{ items }"
+      >
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Username</th>
+            <th>Email</th>
+            <th>Password</th>
+            <th>Created At</th>
+            <th>Updated At</th>
+            <th>Nama</th>
+            <th>Nisn</th>
+            <th>Kelas</th>
+            <th>Alamat</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr
+            v-for="item in items"
+            :key="item.name"
+          >
+            <td>{{ item.id }}</td>
+            <td>{{ item.username }}</td>
+            <td>{{ item.email }}</td>
+            <td>{{ item.password }}</td>
+            <td>{{ item.createdAt }}</td>
+            <td>{{ item.updatedAt }}</td>
+            <td>{{ item.nama }}</td>
+            <td>{{ item.nisn }}</td>
+            <td>{{ item.kelas }}</td>
+            <td>{{ item.alamat }}</td>
+            <td>
+              <v-icon small class="mr-2" @click="editUser(item.id)">mdi-pencil</v-icon>
+              <v-icon small @click="deleteAbsen(item.id), snackbar = true">mdi-delete</v-icon>
+            </td>
+          </tr>
+        </tbody>
+      </template>
+    </v-data-table>
+    </v-card>
+    <div class="text-center">
+  <v-snackbar
+      v-model="snackbar"
+      :multi-line="multiLine"
+    >
+      {{ text }}
+
+      <template v-slot:action="{ attrs }">
+        <v-btn
+          color="red"
+          text
+          v-bind="attrs"
+          @click="snackbar = false"
+        >
+          Close
+        </v-btn>
+      </template>
+    </v-snackbar>
+  </div><br>
+  </div>
 </template>
 
 <script>
@@ -123,76 +176,80 @@ export default {
       snackbar: false,
       text: `Data Berhasil di Hapus`,
       user: [],
-      // headers: [
-      //   { text: "ID", align: "id", sortable: false, value: "id" },
-      //   { text: "Username", value: "username", sortable: false },
-      //   { text: "Email", value: "email", sortable: false },
-      //   // { text: "Password", value: "password", sortable: false },
-      //   { text: "Created At", value: "createdAt", sortable: false },
-      //   { text: "Updated At", value: "updatedAt", sortable: false },
-      //   { text: "Nama", value: "nama", sortable: false },
-      //   { text: "NISN", value: "nisn", sortable: false },
-      //   { text: "Kelas", value: "kelas", sortable: false },
-      //   { text: "Alamat", value: "alamat", sortable: false },
-      //   { text: "Actions", value: "actions", sortable: false },
-      // ], 
-       fields: [
-          {
-            key: 'id',
-            label: 'ID',
-            sortable: false
-          },
-          {
-            key: 'username',
-            label: 'Username',
+      headers: [
+        { text: "ID", align: "id", sortable: false, value: "id" },
+        { text: "Username", value: "username", sortable: false },
+        { text: "Email", value: "email", sortable: false },
+        { text: "Password", value: "password", sortable: false },
+        { text: "Created At", value: "createdAt", sortable: false },
+        { text: "Updated At", value: "updatedAt", sortable: false },
+        { text: "Nama", value: "nama", sortable: false },
+        { text: "NISN", value: "nisn", sortable: false },
+        { text: "Kelas", value: "kelas", sortable: false },
+        { text: "Alamat", value: "alamat", sortable: false }
+      ], 
+      //  fields: [
+      //     {
+      //       key: 'id',
+      //       label: 'ID',
+      //       sortable: false
+      //     },
+      //     {
+      //       key: 'username',
+      //       label: 'Username',
             
-            sortable: false
-          },
-          {
-            key: 'email',
-            sortable: false
-          },
-          {
-            key: 'password',
-            sortable: false
-          },
-          {
-            key: 'createdAt',
-            sortable: false ,
-            // Variant applies to the whole column, including the header and footer
-            variant: 'primary'
-          },
-          {
-            key: 'updatedAt',
-            sortable: false ,
-            // Variant applies to the whole column, including the header and footer
-            variant: 'primary'
-          },  
-          {
-            key: 'nama',
-            sortable: false
-          },
-          {
-            key: 'nisn',
-            sortable: false
-          },
-          {
-            key: 'kelas',
-            sortable: false
-          },
-          {
-            key: 'alamat',
-            sortable: false
-          },
-          {
-            key: 'actions',
-            sortable: false
-          }
-        ],
-        totalRows: 500,
-        currentPage: 500,
-        perPage: 10,
-        pageOptions: [5, 10, 15, { value: 100, text: "Tapilkan semua" }],
+      //       sortable: false
+      //     },
+      //     {
+      //       key: 'email',
+      //       sortable: false
+      //     },
+      //     {
+      //       key: 'password',
+      //       sortable: false
+      //     },
+      //     {
+      //       key: 'createdAt',
+      //       sortable: false ,
+      //       // Variant applies to the whole column, including the header and footer
+      //       variant: 'primary'
+      //     },
+      //     {
+      //       key: 'updatedAt',
+      //       sortable: false ,
+      //       // Variant applies to the whole column, including the header and footer
+      //       variant: 'primary'
+      //     },  
+      //     {
+      //       key: 'nama',
+      //       sortable: false
+      //     },
+      //     {
+      //       key: 'nisn',
+      //       sortable: false
+      //     },
+      //     {
+      //       key: 'kelas',
+      //       sortable: false
+      //     },
+      //     {
+      //       key: 'alamat',
+      //       sortable: false
+      //     },
+      //     {
+      //       key: 'actions',
+      //       sortable: false
+      //     }
+      //   ],
+      //   totalRows: 500,
+      //   currentPage: 500,
+      //   perPage: 10,
+      //   pageOptions: [5, 10, 15, { value: 100, text: "Tapilkan semua" }],
+      enabled: 'body',
+      search: null,
+      slots: [
+        'body'
+      ],
       currentUser: null,
       currentIndex: -1,
       username: ""
@@ -252,12 +309,39 @@ export default {
         .catch((e) => {
           console.log(e);
         });
+    },
+    isEnabled (slot) {
+        return this.enabled === slot
+    }
+  },
+  computed: {
+    showSelect () {
+      return this.isEnabled('header.data-table-select') || this.isEnabled('item.data-table-select')
+    },
+    hideHeaders () {
+      return !this.showSelect
+    },
+    isLoading () {
+      return this.isEnabled('progress')
+    }
+  },
+
+  watch: {
+    enabled (slot) {
+      if (slot === 'body') {
+        this.items = []
+      } else if (slot === 'body') {
+        this.search = '...'
+      } else {
+        this.search = null
+        this.items = [] 
+      }
     }
   },
   mounted() {
     this.retrieveUser();
-    // Set the initial number of items
-      this.totalRows = this.fields.length
+    // // Set the initial number of items
+    //   this.totalRows = this.fields.length
   }
 };
 </script>
